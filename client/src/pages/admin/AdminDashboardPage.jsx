@@ -1,0 +1,8 @@
+import { useEffect,useState } from 'react';
+import { CarFront, MessageSquareText, Quote, Truck } from 'lucide-react';
+import StatCard from '../../components/admin/StatCard.jsx';
+import InquiryTable from '../../components/admin/InquiryTable.jsx';
+import LoadingSpinner from '../../components/LoadingSpinner.jsx';
+import ErrorState from '../../components/ErrorState.jsx';
+import { getDashboard, updateInquiryStatus } from '../../services/adminService.js';
+export default function AdminDashboardPage(){const[data,setData]=useState(null);const[loading,setLoading]=useState(true);const[error,setError]=useState('');const load=()=>{setLoading(true);getDashboard().then(setData).catch(e=>setError(e.response?.data?.message||'Unable to load dashboard.')).finally(()=>setLoading(false));};useEffect(load,[]);const change=async(id,status)=>{await updateInquiryStatus(id,status);load();};if(loading)return <LoadingSpinner/>;if(error)return <ErrorState message={error} onRetry={load}/>;return <div><div><p className="eyebrow">Overview</p><h1 className="mt-2 text-3xl font-black">Dashboard</h1></div><div className="mt-7 grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><StatCard label="Total Vehicles" value={data.vehicles} Icon={CarFront}/><StatCard label="Total Deliveries" value={data.deliveries} Icon={Truck}/><StatCard label="Total Testimonials" value={data.testimonials} Icon={Quote}/><StatCard label="New Inquiries" value={data.newInquiries} Icon={MessageSquareText}/></div><div className="mt-8"><div className="mb-4"><h2 className="text-xl font-black">Recent inquiries</h2><p className="mt-1 text-sm text-zinc-500">Update status directly from the table.</p></div><InquiryTable items={data.recentInquiries} onStatusChange={change}/></div></div>}

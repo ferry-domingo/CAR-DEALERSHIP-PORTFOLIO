@@ -1,0 +1,2 @@
+import Button from '../components/Button.jsx';
+export default function NotFoundPage(){ return <div className="container-shell grid min-h-[60vh] place-items-center py-20 text-center"><div><p className="eyebrow">404</p><h1 className="mt-3 text-5xl font-black">Page not found.</h1><p className="mt-4 text-zinc-500">The page you requested does not exist.</p><Button to="/" className="mt-7">Back to Home</Button></div></div>; }

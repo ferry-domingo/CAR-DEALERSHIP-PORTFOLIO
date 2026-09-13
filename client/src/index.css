@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: Inter, ui-sans-serif, system-ui, sans-serif; background: #fff; color: #09090b; }
+::selection { background: #ef4444; color: white; }
+
+@keyframes testimonial-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.testimonial-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: testimonial-marquee 30s linear infinite;
+  will-change: transform;
+}
+.testimonial-marquee:hover .testimonial-marquee-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-marquee-track { animation-play-state: paused; }
+}
+
+@layer components {
+  .container-shell { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .section-pad { @apply py-16 sm:py-20 lg:py-24; }
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.24em] text-red-500; }
+  .input { @apply w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10; }
+  .label { @apply mb-2 block text-sm font-semibold text-zinc-700; }
+  .card { @apply rounded-3xl border border-zinc-200 bg-white shadow-sm; }
+  .modal-content form { @apply gap-3; }
+  .modal-content form > .grid { @apply gap-3; }
+  .modal-content .label { @apply mb-1 text-xs; }
+  .modal-content .input { @apply rounded-lg px-3 py-2.5; }
+  .modal-content textarea.input { min-height: 5rem; }
+  .modal-content form button[type="submit"] { @apply w-full sm:w-auto; }
+}

@@ -1,0 +1,3 @@
+import { useState } from 'react';
+import { handleImageError } from '../utils/image.js';
+export default function VehicleImageGallery({images=[],name}){ const safe=images.length?images:['/images/hero-ev.svg']; const [active,setActive]=useState(safe[0]); return <div><img src={active} onError={handleImageError} alt={`${name} main demo image`} className="aspect-[16/10] w-full rounded-3xl bg-zinc-100 object-cover"/><div className="mt-3 flex gap-3 overflow-x-auto">{safe.map((x,i)=><button key={`${x}-${i}`} onClick={()=>setActive(x)} className={`overflow-hidden rounded-xl border-2 ${active===x?'border-red-500':'border-transparent'}`}><img src={x} onError={handleImageError} alt={`${name} thumbnail ${i+1}`} className="h-20 w-28 object-cover"/></button>)}</div></div>; }

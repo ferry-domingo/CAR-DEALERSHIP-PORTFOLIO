@@ -1,0 +1,3 @@
+import DataTable from './DataTable.jsx';
+import { formatDate } from '../../utils/format.js';
+export default function InquiryTable({items,onStatusChange}){ const cols=[{key:'full_name',label:'Customer'},{key:'preferred_vehicle',label:'Vehicle'},{key:'inquiry_type',label:'Inquiry Type'},{key:'createdAt',label:'Date',render:v=>formatDate(v)},{key:'status',label:'Status',render:(v,row)=><select className="rounded-lg border border-zinc-200 px-2 py-1 text-xs font-bold" value={v} onChange={e=>onStatusChange(row._id,e.target.value)}>{['New','Contacted','Closed'].map(x=><option key={x}>{x}</option>)}</select>}]; return <DataTable columns={cols} rows={items}/>; }

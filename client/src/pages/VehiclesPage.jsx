@@ -1,0 +1,6 @@
+import { useEffect, useMemo, useState } from 'react';
+import SectionHeading from '../components/SectionHeading.jsx';
+import VehicleFilters from '../components/VehicleFilters.jsx';
+import VehicleGrid from '../components/VehicleGrid.jsx';
+import { getVehicles } from '../services/vehicleService.js';
+export default function VehiclesPage(){ const [vehicles,setVehicles]=useState([]); const [filter,setFilter]=useState('All'); const [loading,setLoading]=useState(true); const [error,setError]=useState(''); const load=()=>{setLoading(true);setError('');getVehicles().then(setVehicles).catch(e=>setError(e.response?.data?.message||'Unable to load vehicles.')).finally(()=>setLoading(false));}; useEffect(load,[]); const shown=useMemo(()=>filter==='All'?vehicles:vehicles.filter(v=>v.category===filter || v.type.toLowerCase().includes(filter.toLowerCase())),[vehicles,filter]); return <section className="section-pad"><div className="container-shell"><SectionHeading eyebrow="Vehicle discovery" title="Explore BYD Vehicles" subtitle="Data-driven demo listings. Confirm current model availability, features, and pricing before publishing."/><div className="mt-8"><VehicleFilters value={filter} onChange={setFilter}/></div><div className="mt-8"><VehicleGrid vehicles={shown} loading={loading} error={error} onRetry={load}/></div></div></section>; }

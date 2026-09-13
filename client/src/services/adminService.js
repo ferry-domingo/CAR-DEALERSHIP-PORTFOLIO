@@ -1,0 +1,11 @@
+import api from './api.js';
+export const getDashboard = () => api.get('/admin/dashboard').then((r) => r.data);
+export const listResource = (name, params = {}) => api.get(`/admin/${name}`, { params }).then((r) => r.data);
+export const createResource = (name, payload) => api.post(`/admin/${name}`, payload).then((r) => r.data);
+export const updateResource = (name, id, payload) => api.put(`/admin/${name}/${id}`, payload).then((r) => r.data);
+export const deleteResource = (name, id) => api.delete(`/admin/${name}/${id}`).then((r) => r.data);
+export const updateInquiryStatus = (id, status) => api.put(`/admin/inquiries/${id}/status`, { status }).then((r) => r.data);
+export const approveTestimonial = (id) => api.patch(`/admin/testimonials/${id}/approve`).then((r) => r.data);
+export const rejectTestimonial = (id) => api.delete(`/admin/testimonials/${id}/reject`).then((r) => r.data);
+export const getAdminProfile = () => api.get('/admin/profile').then((r) => r.data);
+export const updateAdminProfile = (payload) => api.put('/admin/profile', payload).then((r) => r.data);
