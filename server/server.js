@@ -10,6 +10,7 @@ import { connectDB } from './config/db.js';
 import publicRoutes from './routes/publicRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import { notFound, errorHandler } from './middleware/errorHandler.js';
+import { bootstrapAdmin } from './utils/bootstrapAdmin.js';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -31,6 +32,7 @@ app.use(notFound);
 app.use(errorHandler);
 
 connectDB()
+  .then(bootstrapAdmin)
   .then(() => app.listen(port, () => console.log(`Server running on http://localhost:${port}`)))
   .catch((error) => {
     console.error('Unable to start server:', error.message);

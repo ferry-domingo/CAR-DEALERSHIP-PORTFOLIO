@@ -335,7 +335,9 @@ If both the Vercel production domain and a custom domain must access the API, pu
 
 The current image uploader writes to `server/uploads`. Do not deploy the backend to Vercel Functions: their filesystem is ephemeral, so uploaded profile, vehicle, delivery, and testimonial photos would be lost. Use a backend host with a persistent disk mounted for `server/uploads`, or migrate uploads to object storage before using a serverless backend.
 
-After deployment, run the seed command once in the backend environment if the database is empty, then verify `/api/health`, admin login, image upload, and a direct visit to a nested frontend route such as `/vehicles`.
+No paid Render Shell is required to create the admin. On startup, the backend creates the initial admin automatically from `ADMIN_EMAIL` and `ADMIN_PASSWORD` when that email does not exist yet. Use a password containing at least 12 characters, then sign in with those values. Changing the environment password later does not overwrite an existing account.
+
+The optional `npm run seed` command is only for loading demonstration vehicles, deliveries, and testimonials; it is not required for the deployed site or admin login. After deployment, verify `/api/health`, admin login, image upload, and a direct visit to a nested frontend route such as `/vehicles`.
 
 ## Production content checklist
 
