@@ -1,11 +1,16 @@
-import { Facebook, Mail, MapPin, Phone } from 'lucide-react';
+import { useState } from 'react';
+import { Expand, Facebook, Mail, MapPin, Phone } from 'lucide-react';
 import SectionHeading from './SectionHeading.jsx';
 import InquiryModalButton from './InquiryModalButton.jsx';
+import Modal from './Modal.jsx';
+import ZoomableImage from './ZoomableImage.jsx';
 import { useProfile } from '../context/ProfileContext.jsx';
 import { assetUrl } from '../utils/image.js';
 
 export default function AboutRafael({ compact = false }) {
   const profile = useProfile();
+  const [photoOpen, setPhotoOpen] = useState(false);
+  const photo = assetUrl(profile.profile_photo);
   const contactItems = [
     [Phone, profile.phone, profile.phone ? `tel:${profile.phone}` : ''],
     [Mail, profile.email, profile.email ? `mailto:${profile.email}` : ''],
@@ -15,9 +20,10 @@ export default function AboutRafael({ compact = false }) {
 
   return <section className={compact ? '' : 'section-pad'}>
     <div className="container-shell grid items-center gap-10 lg:grid-cols-[.8fr_1.2fr]">
-      <div className="overflow-hidden rounded-[2rem] bg-zinc-100">
-        <img src={assetUrl(profile.profile_photo)} alt={profile.name} className="aspect-[4/4.6] w-full object-cover" loading="lazy"/>
-      </div>
+      <button type="button" onClick={()=>setPhotoOpen(true)} aria-label={`View a larger photo of ${profile.name}`} className="group relative overflow-hidden rounded-[2rem] bg-zinc-100 text-left focus:outline-none focus:ring-4 focus:ring-red-500/30">
+        <img src={photo} alt={profile.name} className="aspect-[4/4.6] w-full object-cover transition duration-500 group-hover:scale-[1.02]" loading="lazy"/>
+        <span className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full bg-black/70 px-3 py-2 text-xs font-bold text-white backdrop-blur-sm"><Expand className="h-4 w-4"/> View photo</span>
+      </button>
       <div>
         <SectionHeading eyebrow="Personal guidance" title={`Meet ${profile.name}`} subtitle={profile.title}/>
         <p className="mt-6 max-w-2xl text-base leading-8 text-zinc-600">{profile.bio}</p>
@@ -34,5 +40,8 @@ export default function AboutRafael({ compact = false }) {
         </div>
       </div>
     </div>
+    <Modal open={photoOpen} onClose={()=>setPhotoOpen(false)} title={profile.name}>
+      <ZoomableImage src={photo} alt={profile.name}/>
+    </Modal>
   </section>;
 }
